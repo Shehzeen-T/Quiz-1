@@ -1,0 +1,100 @@
+//node.h
+@pragma once
+
+class node {
+public:
+    int data;
+    node* next;
+
+    node(int value);  // Constructor
+};
+
+//node.cpp
+#include "node.h"
+
+node::node(int value) {
+    data = value;
+    next = NULL;
+}
+
+//LinkedList.h
+@pragma once
+
+#include "Node.h"
+
+class LinkedList {
+private:
+    Node* head;
+
+public:
+    LinkedList();             // Constructor
+    ~LinkedList();            // Destructor
+    void insert(int value);   // Insert function
+    void display() const;     // Display function
+};
+
+//LinkedList.cpp
+#include "LinkedList.h"
+#include <iostream>
+using namespace std;
+
+LinkedList::LinkedList() : head(nullptr) {}
+
+LinkedList::~LinkedList() {
+    Node* current = head;
+    while (current != nullptr) {
+        Node* next = current->next;
+        delete current;
+        current = next;
+    }
+}
+
+void LinkedList::insert(int value) {
+    Node* newNode = new Node(value);
+
+    if (head == nullptr || value < head->data) {
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
+
+    Node* current = head;
+    while (current->next != nullptr && current->next->data < value) {
+        current = current->next;
+    }
+
+    newNode->next = current->next;
+    current->next = newNode;
+}
+
+void LinkedList::display() const {
+    Node* current = head;
+    while (current != nullptr) {
+        cout << current->data << " ";
+        current = current->next;
+    }
+    cout << endl;
+}
+
+//main.cpp
+#include "LinkedList.h"
+
+int main() {
+    LinkedList list;
+
+    list.insert(5);  // List: 5
+    list.display();
+
+    list.insert(2);  // List: 2 5
+    list.display();
+
+    list.insert(7);  // List: 2 5 7
+    list.display();
+
+    list.insert(3);  // List: 2 3 5 7
+    list.display();
+
+    return 0;
+}
+
+
