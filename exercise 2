@@ -1,5 +1,5 @@
 //node.h
-@pragma onc
+@pragma once
 
 class node {
 public:
